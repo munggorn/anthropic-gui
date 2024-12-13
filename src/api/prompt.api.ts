@@ -43,8 +43,9 @@ export const submitPrompt = async ({
   };
 
   try {
+    // Use the proxy endpoint instead of direct API call
     const response = await fetch(
-      'https://api.anthropic.com/v1/messages',
+      '/api/anthropic/v1/messages',
       requestOptions,
     );
 
