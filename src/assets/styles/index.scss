@@ -1,8 +1,8 @@
 @import "normalize.css/normalize.css";
-@import "fonts";
-@import "themes/light";
-@import "themes/dark";
-@import "variables/global";
+@use "fonts";
+@use "themes/light";
+@use "themes/dark";
+@use "variables/global";
 
 * {
   box-sizing: border-box;
