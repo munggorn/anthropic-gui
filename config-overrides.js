@@ -10,15 +10,32 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 module.exports = override(
   addWebpackModuleRule({
     test: /\.scss$/,
-    use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+    use: [
+      'style-loader', 
+      'css-loader', 
+      'postcss-loader',
+      {
+        loader: 'sass-loader',
+        options: {
+          sassOptions: {
+            includePaths: [path.resolve(__dirname, 'src/assets/styles')],
+          },
+        },
+      },
+    ],
   }),
   adjustStyleLoaders(({ use: [, css, postcss, resolve, processor] }) => {
-    // allow aliased import of mixins, variables, i.e. `@import 'core.scss'`
     if (processor && processor.loader.includes('sass-loader')) {
       processor.options.sassOptions = {
         includePaths: [path.resolve(__dirname, 'src/assets/styles')],
       };
     }
   }),
-  addWebpackResolve({ plugins: [new TsconfigPathsPlugin()] }),
+  addWebpackResolve({
+    plugins: [new TsconfigPathsPlugin()],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+  }),
 );
