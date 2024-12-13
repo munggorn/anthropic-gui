@@ -17,22 +17,27 @@ export const submitPrompt = async ({
   signal,
 }: PromptRequest) => {
   const requestBody = {
-    prompt,
-    model,
+    model: "claude-3-sonnet-20240229", // Updated model name
+    messages: [
+      {
+        role: "user",
+        content: prompt
+      }
+    ],
     temperature,
     top_k: topK,
     top_p: topP,
-    max_tokens_to_sample: maxTokens,
-    stop_sequences: ['\n\nHuman:'],
+    max_tokens: maxTokens,
     stream: true,
   };
 
   const requestOptions = {
     method: 'POST',
     headers: {
+      'anthropic-version': '2023-06-01',
       'x-api-key': apiKey,
       'Content-Type': 'application/json',
-      accept: 'application/json',
+      'Accept': 'text/event-stream',
     },
     signal: signal,
     body: JSON.stringify(requestBody),
@@ -40,12 +45,19 @@ export const submitPrompt = async ({
 
   try {
     const response = await fetch(
-      `${ANTHROPIC_CONFIG.anthropicApiPrefix}/complete`,
+      'https://api.anthropic.com/v1/messages',
       requestOptions,
     );
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('API Error:', errorData);
+      throw new Error(`API Error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
+    }
+
     return response;
   } catch (error) {
-    console.error(error);
+    console.error('Request Error:', error);
+    throw error;
   }
 };
