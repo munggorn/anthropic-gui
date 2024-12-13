@@ -34,10 +34,10 @@ export const submitPrompt = async ({
   const requestOptions = {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${apiKey}`,  // Changed from x-api-key to Authorization
+      Authorization: `Bearer ${apiKey}`,
       'anthropic-version': ANTHROPIC_CONFIG.apiVersion,
       'Content-Type': 'application/json',
-      'Accept': 'text/event-stream',
+      Accept: 'text/event-stream',
     },
     signal,
     body: JSON.stringify(requestBody),
@@ -45,20 +45,23 @@ export const submitPrompt = async ({
 
   try {
     const response = await fetch(
-      `${API_CONFIG.baseUrl}/v1/messages`,
+      `${API_CONFIG.baseUrl}/messages`,
       requestOptions,
     );
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.error('API Error:', errorData);
       throw new Error(
-        `API Error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`
+        `API Error: ${response.status} - ${
+          errorData.error?.message || 'Unknown error'
+        }`,
       );
     }
 
     return response;
   } catch (error) {
-    console.error(error);
-    throw error;  // Re-throw to handle in the component
+    console.error('Request Error:', error);
+    throw error;
   }
 };
