@@ -1,4 +1,4 @@
-import { ANTHROPIC_CONFIG } from '@/api/config';
+import { ANTHROPIC_CONFIG, API_CONFIG } from '@/api/config';
 import { ApiSettingOptions } from '@/typings/common';
 
 export interface PromptRequest extends ApiSettingOptions {
@@ -17,7 +17,7 @@ export const submitPrompt = async ({
   signal,
 }: PromptRequest) => {
   const requestBody = {
-    model: 'claude-3-sonnet-20240229',
+    model: ANTHROPIC_CONFIG.defaultModel,
     messages: [
       {
         role: 'user',
@@ -35,7 +35,7 @@ export const submitPrompt = async ({
     method: 'POST',
     headers: {
       'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
+      'anthropic-version': ANTHROPIC_CONFIG.apiVersion,
       'Content-Type': 'application/json',
       Accept: 'text/event-stream',
     },
@@ -45,7 +45,7 @@ export const submitPrompt = async ({
 
   try {
     const response = await fetch(
-      `${ANTHROPIC_CONFIG.anthropicApiPrefix}/v1/messages`,
+      `${API_CONFIG.baseUrl}/v1/messages`,
       requestOptions,
     );
 
