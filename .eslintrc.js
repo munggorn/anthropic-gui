@@ -45,6 +45,7 @@ module.exports = {
     'jest',
     'import',
     'sort-keys-fix',
+    'prettier',
   ],
   root: true,
   rules: {
@@ -92,6 +93,19 @@ module.exports = {
     'linebreak-style': 'off',
     'no-console': 1,
     'prefer-const': 'error',
+    'prettier/prettier': [
+      'error',
+      {
+        singleQuote: true,
+        trailingComma: 'all',
+        printWidth: 80,
+        tabWidth: 2,
+        semi: true,
+        bracketSpacing: true,
+        arrowParens: 'avoid',
+        endOfLine: 'auto',
+      },
+    ],
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
     'react/display-name': 'error',
