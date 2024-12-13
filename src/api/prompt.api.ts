@@ -34,10 +34,10 @@ export const submitPrompt = async ({
   const requestOptions = {
     method: 'POST',
     headers: {
-      'x-api-key': apiKey,
+      'Authorization': `Bearer ${apiKey}`,  // Changed from x-api-key to Authorization
       'anthropic-version': ANTHROPIC_CONFIG.apiVersion,
       'Content-Type': 'application/json',
-      Accept: 'text/event-stream',
+      'Accept': 'text/event-stream',
     },
     signal,
     body: JSON.stringify(requestBody),
@@ -49,8 +49,16 @@ export const submitPrompt = async ({
       requestOptions,
     );
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        `API Error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`
+      );
+    }
+
     return response;
   } catch (error) {
     console.error(error);
+    throw error;  // Re-throw to handle in the component
   }
 };
