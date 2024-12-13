@@ -1,4 +1,3 @@
-import { ANTHROPIC_CONFIG } from '@/api/config';
 import { ApiSettingOptions } from '@/typings/common';
 
 export interface PromptRequest extends ApiSettingOptions {
@@ -39,7 +38,7 @@ export const submitPrompt = async ({
       'Content-Type': 'application/json',
       Accept: 'text/event-stream',
     },
-    signal: signal,
+    signal,
     body: JSON.stringify(requestBody),
   };
 
