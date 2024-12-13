@@ -17,12 +17,12 @@ export const submitPrompt = async ({
   signal,
 }: PromptRequest) => {
   const requestBody = {
-    model: "claude-3-sonnet-20240229", // Updated model name
+    model: 'claude-3-sonnet-20240229',
     messages: [
       {
-        role: "user",
-        content: prompt
-      }
+        role: 'user',
+        content: prompt,
+      },
     ],
     temperature,
     top_k: topK,
@@ -37,7 +37,7 @@ export const submitPrompt = async ({
       'anthropic-version': '2023-06-01',
       'x-api-key': apiKey,
       'Content-Type': 'application/json',
-      'Accept': 'text/event-stream',
+      Accept: 'text/event-stream',
     },
     signal: signal,
     body: JSON.stringify(requestBody),
@@ -52,7 +52,11 @@ export const submitPrompt = async ({
     if (!response.ok) {
       const errorData = await response.json();
       console.error('API Error:', errorData);
-      throw new Error(`API Error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
+      throw new Error(
+        `API Error: ${response.status} - ${
+          errorData.error?.message || 'Unknown error'
+        }`,
+      );
     }
 
     return response;
