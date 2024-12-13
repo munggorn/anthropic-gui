@@ -8,15 +8,12 @@
     "url": "https://aleph1.io/",
     "email": "hello@aleph1.io"
   },
-  "description": "This app allows you to communicate with Anthropic's Claude through an intuitive UI. You can save conversations, configure models and parameters, and get generated responses from the models.",
+  "description": "This app allows you to communicate with Anthropic's Claude through an intuitive UI.",
   "scripts": {
     "start": "node server.js",
     "build": "react-app-rewired build",
     "dev": "react-app-rewired start",
-    "lint": "eslint . --ext .ts --ext .js --ext .tsx",
-    "lint:fix": "eslint --fix . --ext .ts --ext .js --ext .tsx",
-    "prettify": "prettier --write .",
-    "stylelint": "stylelint '**/*.{css,scss}'"
+    "heroku-postbuild": "yarn build"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
@@ -51,7 +48,11 @@
     "typescript": "^5.0.4",
     "unified": "^10.1.2",
     "uuid": "^9.0.0",
-    "react-app-rewired": "^2.2.1"
+    "react-app-rewired": "^2.2.1",
+    "customize-cra": "^1.0.0",
+    "tsconfig-paths-webpack-plugin": "^4.0.1",
+    "sass": "^1.62.1",
+    "sass-resources-loader": "^2.2.5"
   },
   "devDependencies": {
     "@types/mdast": "^3.0.11",
@@ -64,18 +65,16 @@
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",
-    "customize-cra": "^1.0.0",
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
     "prettier": "^2.8.8",
-    "sass": "^1.62.1",
-    "sass-resources-loader": "^2.2.5",
     "stylelint": "^15.6.2",
     "stylelint-config-prettier-scss": "^1.0.0",
     "stylelint-config-standard-scss": "^9.0.0"
   },
   "engines": {
-    "node": "16.x"
+    "node": "16.x",
+    "yarn": "1.22.x"
   },
   "browserslist": {
     "production": [
